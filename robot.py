@@ -6,8 +6,8 @@ LeftMotor = robot.motor_board.motors[0]
 RightMotor = robot.motor_board.motors[1]
 
 robot.arduino.pins[AnalogPins.A0].mode = GPIOPinMode.INPUT
-left_IR = robot.arduino.pins[AnalogPins.A2]
-robot.arduino.pins[AnalogPins.A0].mode = GPIOPinMode.INPUT
+left_IR = robot.arduino.pins[AnalogPins.A0]
+robot.arduino.pins[AnalogPins.A2].mode = GPIOPinMode.INPUT
 right_IR = robot.arduino.pins[AnalogPins.A2]
 
 # PID constants
