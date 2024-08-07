@@ -1,22 +1,27 @@
-from sbot import Robot, AnalogPins
+from sbot import Robot, AnalogPins, GPIOPinMode
 import time
-robot = Robot()
 
+robot = Robot()
 LeftMotor = robot.motor_board.motors[0]
 RightMotor = robot.motor_board.motors[1]
 
-left_IR = robot.arduino.pins[AnalogPins.A1]
+robot.arduino.pins[AnalogPins.A0].mode = GPIOPinMode.INPUT
+left_IR = robot.arduino.pins[AnalogPins.A2]
+robot.arduino.pins[AnalogPins.A0].mode = GPIOPinMode.INPUT
 right_IR = robot.arduino.pins[AnalogPins.A2]
 
 # PID constants
-Kp = 0.0  
-Ki = 0.0 
-Kd = 0.0 
+Kp = 0.01
+Ki = 0.01
+Kd = 0.01
 
 integral = 0
 previous_error = 0
 previous_time = time.time()
-
+pos_power_threshold = 0.6
+neg_power_threshold = -0.6
+left_power = 0.02 
+right_power = 0.02 
 
 
 
@@ -64,10 +69,22 @@ while True:
 
 
     pid = proportional + (Ki * integral) + (Kd * derivative)
-     
-    left_power = 0.2 + pid
-    right_power = 0.2 - pid
+    left_power = 0.02 + pid
+    right_power = 0.02 - pid
+
+
+    if left_power > pos_power_threshold: 
+        left_power = pos_power_threshold
+    elif left_power < neg_power_threshold:
+        left_power = neg_power_threshold
+
+    if right_power > pos_power_threshold: 
+        right_power = pos_power_threshold
+    elif right_power < neg_power_threshold:
+        right_power = neg_power_threshold
     
+
+    print(left_power, right_power)
     set_motors(left_power, right_power)
 
     previous_error = error
