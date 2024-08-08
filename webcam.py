@@ -14,13 +14,23 @@ def find_marker(markers, id_number):
         if marker.id == id_number:
             return marker
     return None
+def stayonline():
+    if angle_to_marker > 10: #REPLACE X WITH SUITABLE VALUE
+        set_motors(0.05,-0.05)
+        robot.sleep(0.25)
+        set_motors(0,0)
+    #ADD CODE HERE TO TURN TOWARD MARKER
+    elif angle_to_marker < -10: #REPLACE X WITH SUITABLE VALUE
+        set_motors(-0.05,0.05)
+        robot.sleep(0.25)
+        set_motors(0,0)
 
 set_motors(0.2, 0.2)
 robot.sleep(1)
 set_motors(0,0)
-target_id = 1
+target_id = [1,3,5]
 distance = [1000,1200]
-for target_id in [1,3,5]:
+for target_id in [1,3,5,6]:
     while True:
         set_motors(0, 0) #Stop the robot before taking a photo, avoids motion blur
         robot.sleep(0.2) #Time for robot to actually stop
@@ -28,22 +38,38 @@ for target_id in [1,3,5]:
         target_marker = find_marker(markers, target_id)
         if target_marker != None:
             angle_to_marker = math.degrees(target_marker.position.horizontal_angle)
-            if angle_to_marker > 10: #REPLACE X WITH SUITABLE VALUE
-                set_motors(0.05,-0.05)
-                robot.sleep(0.25)
-                set_motors(0,0)
+            stayonline()
+
+            if target_id ==1:
             #ADD CODE HERE TO TURN TOWARD MARKER
-            elif angle_to_marker < -10: #REPLACE X WITH SUITABLE VALUE
-                set_motors(-0.05,0.05)
-                robot.sleep(0.25)
-                set_motors(0,0)
-            #ADD CODE HERE TO TURN TOWARD MARKER
-            elif target_marker.position.distance > 750: #REPLACE Y WITH SUITABLE DISTANCE
-                set_motors(0.2,0.2)
-                robot.sleep(0.5)
-                set_motors(0,0)
-            elif target_marker.position.distance < 750: #REPLACE Y WITH SUITABLE DISTANCE
-                set_motors(-0.15,0.15)
-                robot.sleep(0.5)
-                set_motors(0,0)
-            elif target_marker.position.distance < distance[0]
+                if target_marker.position.distance > 750: #REPLACE Y WITH SUITABLE DISTANCE
+                    set_motors(0.2,0.2)
+                    robot.sleep(0.5)
+                    set_motors(0,0)
+                elif target_marker.position.distance < 750: #REPLACE Y WITH SUITABLE DISTANCE
+                    set_motors(-0.15,0.15)
+                    robot.sleep(0.5)
+                    set_motors(0,0)
+                    break
+                
+            elif target_id == 3:
+                if target_marker.position.distance > 1000: #REPLACE Y WITH SUITABLE DISTANCE
+                    set_motors(0.2,0.2)
+                    robot.sleep(0.5)
+                    set_motors(0,0)
+                elif target_marker.position.distance < 1000: #REPLACE Y WITH SUITABLE DISTANCE
+                    set_motors(0.1,-0.1)
+                    robot.sleep(0.5)
+                    set_motors(0,0)
+                    break
+                
+            elif target_id == 5:
+                if target_marker.position.distance > 1200: #REPLACE Y WITH SUITABLE DISTANCE
+                    set_motors(0.2,0.2)
+                    robot.sleep(0.75)
+                    set_motors(0,0)
+                elif target_marker.position.distance < 1200: #REPLACE Y WITH SUITABLE DISTANCE
+                    set_motors(-0.15,0.15)
+                    robot.sleep(0.75)
+                    set_motors(0,0)
+                    break
