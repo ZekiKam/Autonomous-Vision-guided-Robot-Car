@@ -17,9 +17,9 @@ right_IR = robot.arduino.pins[AnalogPins.A2]
 
 
 # PID constants
-Kp = 0.01
-Ki = 0.01
-Kd = 0.01
+Kp = 0.065
+Ki = 0
+Kd = 0.026
 
 integral = 0
 previous_error = 0
@@ -35,11 +35,11 @@ def set_motors(left, right):
 
 def calculate_error(left, right): # Black low intensity, white high intensity
     if left > right:
-        error = 1  # slightly left
+        error = 1  #slightly left
     elif right > left:
-        error = -1  # slightly right
+        error = -1  #slightly right
     else:
-        error = 0  # centered
+        error = 0  #centered
     return error
 
 def measure_values():
@@ -79,15 +79,15 @@ while True:
     
     error = calculate_error(left_value, right_value)
     
-    proportional = Kp * error
-    if time_change > 0:
-        integral += error * time_change
-        derivative = (error - previous_error) / time_change
+    proportional = Kp * error #reduce this value as we're trying to reduce present error
+    if time_change > 0: 
+        integral += error * time_change     #accumulated error over time
+        derivative = (error - previous_error) / time_change     #predicts future error based on the rate of change of error
     else:
         integral = 0
         derivative = 0
 
-    pid = proportional + (Ki * integral) + (Kd * derivative)
+    pid = proportional + (Ki * integral) + (Kd * derivative)  #combine three -> present, past, future errors -> power correction
     left_power = 0.02 + pid
     right_power = 0.02 - pid
 
