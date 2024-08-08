@@ -28,6 +28,8 @@ pos_power_threshold = 0.6
 neg_power_threshold = -0.6
 left_power = 0.02 
 right_power = 0.02 
+left_purple_threshold = 0 #adjust
+right_purple_threshold = 0 #adjust
 
 def set_motors(left, right):
     LeftMotor.power = left
@@ -50,13 +52,13 @@ def measure_values():
 def return_track():
     while True:
         left_value, right_value = measure_values()
-        if left_value < left_threshold or right_value < right_threshold:  #Adjust threshold
+        if left_value < left_purple_threshold or right_value < right_purple_threshold:  #Adjust threshold
             break
-        if left_value > left_threshold and right_value > right_threshold:
+        if left_value > left_purple_threshold and right_value > right_purple_threshold:
             set_motors(0.02, -0.02)  #Spin right if both
-        elif left_value > left_threshold:
+        elif left_value > left_purple_threshold:
             set_motors(0.02, -0.02)  
-        elif right_value > right_threshold:
+        elif right_value > right_purple_threshold:
             set_motors(-0.02, 0.02)  
             
         time.sleep(0.1) #Adjust
@@ -72,7 +74,7 @@ while True:
     
     left_value, right_value = measure_values()
 
-    if left_value > left_threshold and right_value > right_threshold:  # Adjust threshold
+    if left_value > left_purple_threshold and right_value > right_purple_threshold:  # Adjust threshold
         set_motors(0, 0)
         return_track()
         continue
