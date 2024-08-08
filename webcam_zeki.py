@@ -59,11 +59,17 @@ for target_id in [1,3,5,6]:
             if target_id ==1:
 
             #ADD CODE HERE TO TURN TOWARD MARKER
-                if target_marker.position.distance > 750: #REPLACE Y WITH SUITABLE DISTANCE
+                if target_marker.position.distance > 780: #REPLACE Y WITH SUITABLE DISTANCE
 
                     print("far away")
-                    set_motors(0.2,0.2)
+                    set_motors(0.5,0.5)
                     robot.sleep(0.5)
+                    set_motors(0,0)
+                    robot.sleep(0.5)
+                elif target_marker.position.distance > 750 and target_marker.position.distance< 780:
+                    print("slower")
+                    set_motors(0.2,0.2)
+                    robot.sleep(0.75)
                     set_motors(0,0)
                 elif target_marker.position.distance < 750: #REPLACE Y WITH SUITABLE DISTANCE
 
@@ -74,12 +80,17 @@ for target_id in [1,3,5,6]:
                     break
                 
             elif target_id == 3:
-                if target_marker.position.distance > 1000: #REPLACE Y WITH SUITABLE DISTANCE
+                if target_marker.position.distance > 1200: #REPLACE Y WITH SUITABLE DISTANCE
 
-                    set_motors(0.2,0.2)
+                    set_motors(0.5,0.5)
                     robot.sleep(0.5)
                     set_motors(0,0)
-
+                    robot.sleep(0.5)
+                elif target_marker.position.distance > 1000 and target_marker.position.distance< 1200:
+                    print("slower")
+                    set_motors(0.2,0.2)
+                    robot.sleep(0.75)
+                    set_motors(0,0)
                 elif target_marker.position.distance < 1000: #REPLACE Y WITH SUITABLE DISTANCE
 
                     set_motors(0.1,-0.1)
@@ -88,13 +99,17 @@ for target_id in [1,3,5,6]:
                     break
                 
             elif target_id == 5:
-                if target_marker.position.distance > 1000: #REPLACE Y WITH SUITABLE DISTANCE
-
+                if target_marker.position.distance > 900: #REPLACE Y WITH SUITABLE DISTANCE, rememeber touse reasonable range!
+                    set_motors(0.5,0.5)
+                    robot.sleep(0.75)
+                    set_motors(0,0)
+        
+                elif target_marker.position.distance > 770 and target_marker.position.distance< 900:
+                    print("slower")
                     set_motors(0.2,0.2)
                     robot.sleep(0.75)
                     set_motors(0,0)
-
-                elif target_marker.position.distance < 1000: #REPLACE Y WITH SUITABLE DISTANCE
+                elif target_marker.position.distance < 770: #REPLACE Y WITH SUITABLE DISTANCE
 
                     set_motors(-0.4,0.4)
                     robot.sleep(0.8)
@@ -108,8 +123,12 @@ for target_id in [1,3,5,6]:
                     set_motors(0.2,0.2)
                     robot.sleep(0.5)
                     set_motors(0,0)
-
-                elif target_marker.position.distance < 800: #REPLACE Y WITH SUITABLE DISTANCE
+                elif target_marker.position.distance > 780 and target_marker.position.distance< 800:
+                    print("slower")
+                    set_motors(0.2,0.2)
+                    robot.sleep(0.75)
+                    set_motors(0,0)
+                elif target_marker.position.distance < 780: #REPLACE Y WITH SUITABLE DISTANCE
 
                     set_motors(-0.15,0.15)
                     robot.sleep(0.5)
