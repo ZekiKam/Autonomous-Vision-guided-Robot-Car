@@ -1,13 +1,13 @@
 from sbot import Robot
 import math
 robot = Robot()
-offset = 1.05
+
 # Name the motors to make it easier
 LeftMotor = robot.motor_board.motors[0]
 RightMotor = robot.motor_board.motors[1]
 # Helper function to set motor speeds
 def set_motors(left, right):
-    LeftMotor.power = left * offset
+    LeftMotor.power = left
     RightMotor.power = right
 # This function checks visible maker list for a specific target
 def find_marker(markers, id_number):
