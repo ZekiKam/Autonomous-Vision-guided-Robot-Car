@@ -1,7 +1,7 @@
 from sbot import Robot, AnalogPins, GPIOPinMode
 import time
 
-#Notes
+#Notes!
 #Voltage varies between 0-5V
 #Adjust Kp value to reduce wobble
 #Run test_purple_IR.py to test threshold
