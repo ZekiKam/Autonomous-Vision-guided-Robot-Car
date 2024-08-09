@@ -5,12 +5,12 @@ offset = 1.05
 # Name the motors to make it easier
 LeftMotor = robot.motor_board.motors[0]
 RightMotor = robot.motor_board.motors[1]
-
+skip7 = True
 # Helper function to set motor speeds
 def set_motors(left, right):
     LeftMotor.power = left * offset
     RightMotor.power = right
-    
+
     
 # This function checks visible maker list for a specific target
 def find_marker(markers, id_number):
@@ -79,7 +79,7 @@ while True:
                         stayonline(angle_to_marker)
                     elif target_marker.position.distance < 750: #REPLACE Y WITH SUITABLE DISTANCE
                         print("close")
-                        set_motors(0.2,-0.2)
+                        set_motors(-0.2,0.2)
                         robot.sleep(0.15)
                         set_motors(0,0)
                         break
@@ -89,7 +89,7 @@ while True:
                         print("far away")   
                         stayonline(angle_to_marker)
                     elif target_marker.position.distance < 1000: #REPLACE Y WITH SUITABLE DISTANCE
-                        set_motors(0.2,-0.2)
+                        set_motors(-0.2,0.2)
                         robot.sleep(0.15)
                         set_motors(0,0)
                         break
@@ -98,22 +98,25 @@ while True:
                     if target_marker.position.distance > 1000: #REPLACE Y WITH SUITABLE DISTANCE
                         stayonline(angle_to_marker)
                     elif target_marker.position.distance < 1000: #REPLACE Y WITH SUITABLE DISTANCE
-                        set_motors(0.2,-0.2)
+                        set_motors(-0.2,0.2)
                         robot.sleep(0.15)
                         set_motors(0,0)
                         exit = True
                         break
                 
                 elif target_id == 7:
-                    if target_marker.position.distance > 1000: #REPLACE Y WITH SUITABLE DISTANCE
-                        set_motors(0.2,0.2)
-                        robot.sleep(0.15)                        
-                    elif target_marker.position.distance < 1000: #REPLACE Y WITH SUITABLE DISTANCE
-                        set_motors(-0.2,0.2)
-                        robot.sleep(0.15)
-                        set_motors(0,0)
-                        exit = True
-                        break
+                    if skip7 == False:
+                        if target_marker.position.distance > 1000: #REPLACE Y WITH SUITABLE DISTANCE
+                            set_motors(0.2,0.2)
+                            robot.sleep(0.15)                        
+                        elif target_marker.position.distance < 1000: #REPLACE Y WITH SUITABLE DISTANCE
+                            set_motors(-0.2,0.2)
+                            robot.sleep(0.15)
+                            set_motors(0,0)
+                            exit = True
+                            break
+                    skip7 = not skip7
+                        
             
             else:
                 set_motors(0.2,-0.2)
@@ -122,3 +125,16 @@ while True:
 
 
 print("Loop finished")
+ 
+# #45 degree turn handled as 90
+# set_motors(-0.1,0.1)
+# robot.sleep(1)         
+# ultra_distance = robot.arduino.ultrasound_measure(2,3)
+# while ultra_distance > 500:
+#     ultra_distance = robot.arduino.ultrasound_measure(2,3)
+#     print("Ultrasound:",ultra_distance)
+#     set_motors(0.4,0.4)
+#     robot.sleep(0.5)
+#     set_motors(0,0)
+    
+# set_motors(0,0)
