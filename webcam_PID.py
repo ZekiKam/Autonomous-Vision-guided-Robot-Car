@@ -1,5 +1,6 @@
 from sbot import Robot
 import time
+import math
 robot = Robot()
 
 LeftMotor = robot.motor_board.motors[0]
@@ -22,11 +23,10 @@ previous_error_right = 0
 previous_time = time.time()
 
 #Motor variables
-left_forward_speed = 0.651
-right_forward_speed = 0.65
-left_turning_speed = 0.2
-right_turning_speed = 0.2
-
+left_forward_power = 0.651
+right_forward_power = 0.65
+left_turning_power = 0.2
+right_turning_power = 0.2
 
 
 
@@ -43,19 +43,18 @@ def find_marker(markers, id_number):
 
 
 
-
 #Main loop
-lookfor = 1
+current_marker = 1
 while True:
-    set_motors(0, 0) 
+    set_motors(0,0) 
     robot.sleep(0.2) #Time for robot to actually stop
     markers = robot.camera.see()
-    target_marker = find_marker(markers, lookfor)
-    print("looking for marker " + str(lookfor))
+    target_marker = find_marker(markers, current_marker)
+    print(f"Searching for marker {current_marker}")
     if target_marker != None:
         current_time = time.time()
         dt = current_time - previous_time
-        angle_to_marker = target_marker.position.horizontal_angle
+        angle_to_marker = math.degrees(target_marker.position.horizontal_angle)
         distance = target_marker.position.distance
     
         #PID --- Marker's horizontal angle = error for the motors
@@ -76,56 +75,56 @@ while True:
         previous_time = current_time    
         
         #Adjust motor speeds using PID output
-        left_speed = left_forward_speed + pid_output_left
-        right_speed = right_forward_speed + pid_output_right
+        left_speed = left_forward_power + pid_output_left
+        right_speed = right_forward_power + pid_output_right
         
         
-        if angle_to_marker > 0.2:
-            print("marker on right")
-            set_motors(left_turning_speed, -(right_turning_speed))
+        if angle_to_marker > 10:
+            print("Marker on the right")
+            set_motors(left_turning_power, -right_turning_power)
             robot.sleep(0.1)
+            print("A")
            
-        elif angle_to_marker < -0.2:
-            print("marker on left")
-            set_motors(-(left_turning_speed), right_turning_speed)
+        elif angle_to_marker < -10:
+            print("Marker on the left")
+            set_motors(-left_turning_power, right_turning_power)
             robot.sleep(0.1)
+            print("B")
             
         elif target_marker.position.distance > 1000:
-            print("marker ahead")
-            set_motors(left_forward_speed, right_forward_speed)
-            robot.sleep(target_marker.position.distance/2600)  # 2600 speed t=d/v
-            if target_marker.position.distance/2 < 1000:
-                lookfor += 2 #3 then 5 then 7
-                if lookfor > 7:
-                    lookfor = 1 #finishes half of the arena, so back to 1 to finish the other half
+            print("Marker forward")
+            set_motors(left_forward_power, right_forward_power)
+            robot.sleep(target_marker.position.distance/3000) # 3000 speed t=d/v (test experiment to find speed)
+            print(f"Distance from wall:{target_marker.position.distance}")
         
-
-        elif target_marker.position.distance <= 1000:
-            lookfor += 2
-            if lookfor > 7:
-                lookfor = 1
+            if (target_marker.position.distance/2) <= 1000:
+                current_marker += 2
+                if current_marker > 7:
+                    current_marker = 1
+                
+                if current_marker == 1 or current_marker == 3 or current_marker == 7:
+                    set_motors(-left_turning_power, right_turning_power)
+                    robot.sleep(0.4)
+                    print("Wall detected, turn left")
+                else:             
+                    set_motors(left_turning_power, -right_turning_power)
+                    robot.sleep(0.4)
+                    print("Wall detected, turn right")
+    
             
-            if lookfor == 1 or lookfor == 3 or lookfor == 7:
-                set_motors(-0.2, 0.2)
-                robot.sleep(0.4)
-                print('close enough, turn left')
-            else:             
-                set_motors(0.2, -0.2)
-                robot.sleep(0.4)
-                print('close enough, turn right')
-            
-   
-    else:
-        if lookfor == 1 or lookfor == 3 or lookfor == 7:
-            print("can't find it")
-            set_motors(-(left_turning_speed), right_turning_speed)
+    #can't find marker, so rotate
+    else:   
+        if current_marker == 1 or current_marker == 3 or current_marker == 7:
+            print(f"Can't find marker {current_marker}")
+            set_motors(-left_turning_power, right_turning_power)
             robot.sleep(0.4)
-            set_motors(0.2,0.2)
+            set_motors(left_forward_power, right_forward_power)
             robot.sleep(0.2)
         else:
-            print("can't find it")
-            set_motors(left_turning_speed, -right_turning_speed)
+            print(f"Can't find marker {current_marker}")
+            set_motors(left_turning_power, -right_turning_power)
             robot.sleep(0.4)
-            set_motors(0.2, 0.2)
+            set_motors(left_forward_power, right_forward_power)
             robot.sleep(0.2)
+
             
