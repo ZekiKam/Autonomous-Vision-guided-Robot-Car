@@ -1,4 +1,4 @@
-# Tin-Car-Rally-Robot
+# Autonomous Vision-guided Robot Car
 
 An autonomous robot built on the [Student Robotics](https://studentrobotics.org/) `sbot` API. The robot uses its onboard webcam to detect numbered ArUco fiducial markers placed around a course, then navigates checkpoint-to-checkpoint by steering toward each marker in sequence based on its detected angle and distance.
 
@@ -15,6 +15,7 @@ An autonomous robot built on the [Student Robotics](https://studentrobotics.org/
 - A Student Robotics competition robot kit (motor board, Arduino board, webcam)
 - [`sbot`](https://studentrobotics.org/) — the Student Robotics Python API
 - Printed ArUco fiducial markers positioned around the physical course
+- Simulations were ran at: [Webots](https://studentrobotics.org/docs/simulator/setting_up_simulator)
 
 ## Files
 
