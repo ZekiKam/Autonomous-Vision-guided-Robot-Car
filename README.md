@@ -16,6 +16,7 @@ An autonomous robot built on the [Student Robotics](https://studentrobotics.org/
 - [`sbot`](https://studentrobotics.org/) — the Student Robotics Python API
 - Printed ArUco fiducial markers positioned around the physical course
 - Simulations were ran at: [Webots](https://studentrobotics.org/docs/simulator/setting_up_simulator)
+- Hardware assembly guide: [here](https://studentrobotics.org/docs/tutorials/assembly)
 
 ## Files
 
