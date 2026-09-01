@@ -1,3 +1,8 @@
+'''
+PID + webcam vision
+Replaces fixed-threshold turning with independent PID loops for each motor, using the marker's angle as the error signal.
+'''
+
 from sbot import Robot
 import time
 import math
