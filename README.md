@@ -20,8 +20,7 @@ An autonomous robot built on the [Student Robotics](https://studentrobotics.org/
 
 | File | Description |
 |---|---|
-| `webcam_PID.py` | **Main navigation script.** Detects markers via webcam and steers using independent PID control loops on each motor, with the marker's angle as the error signal. |
-| `pid_control.py` | Alternate PID implementation. Uses a single combined PID term applied symmetrically to both motors, and matches markers in pairs (e.g. `[0,1]`, `[2,3]`) rather than single IDs. |
-| `webcam.py` | Earlier version using fixed-angle thresholds instead of PID, with per-marker distance tuning and a motor power offset to compensate for physical motor imbalance. |
+| `webcam_PID_final_used.py` | **Main navigation script.** Detects markers via webcam and steers using independent PID control loops on each motor, with the marker's angle as the error signal. |
+| `webcam_no_PID.py` | Earlier version using fixed-angle thresholds instead of PID, with per-marker distance tuning and a motor power offset to compensate for physical motor imbalance. |
 | `baseline_example.py` | Minimal baseline example demonstrating marker detection and basic threshold-based steering, without PID. |
 | `test_IR_method.py` | Standalone calibration utility — averages 100 IR sensor readings on a purple track surface to determine a detection threshold. Not currently wired into the navigation scripts. |
