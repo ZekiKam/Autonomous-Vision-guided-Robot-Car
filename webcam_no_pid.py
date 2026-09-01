@@ -1,3 +1,5 @@
+# Using fixed-angle thresholds instead of PID
+
 from sbot import Robot
 import math
 robot = Robot()
